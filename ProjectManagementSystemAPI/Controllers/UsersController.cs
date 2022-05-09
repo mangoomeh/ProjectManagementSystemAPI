@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjectManagementSystemAPI.Context;
+using ProjectManagementSystemAPI.Dtos;
+using ProjectManagementSystemAPI.Helpers;
 using ProjectManagementSystemAPI.Models;
 
 namespace ProjectManagementSystemAPI.Controllers
@@ -76,12 +78,27 @@ namespace ProjectManagementSystemAPI.Controllers
         // POST: api/Users
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        public async Task<ActionResult<User>> PostUser(SignupDto signupDto)
         {
+            if (signupDto == null)
+            {
+                return BadRequest();
+            }
+
+            EncryptDecryptPassword.CreateHashPassword(signupDto.Password, out byte[] passwordHash, out byte[] passwordSalt);
+            var user = new User
+            {
+                Name = signupDto.Name,
+                Email = signupDto.Email,
+                CreatedTime = DateTime.Now,
+                PasswordHash = passwordHash,
+                PasswordSalt = passwordSalt
+            };
+
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
+            return Ok();
         }
 
         // DELETE: api/Users/5

@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "Zx76BC4PG6S7oMGgiJk6JJOyASPWlxFQCmNeBsJe8be1F0/jLg6ZSpezU5lsE3Rl3nMOdzIZ3B9O+82qJxdwlw==",
+  "dgSpecHash": "nAtrQ3jl8h2MvD2E3IxvMmRg0j4FjGksjKWJWmYeFPix9KnmQNE4gOdx6MnAMGR/+YHRmZ2rf73SM9QNcKkpoQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\m4ng0\\Desktop\\GitHub\\ProjectManagementSystemAPI\\ProjectManagementSystemAPI\\ProjectManagementSystemAPI.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\m4ng0\\.nuget\\packages\\automapper\\11.0.1\\automapper.11.0.1.nupkg.sha512",
     "C:\\Users\\m4ng0\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\m4ng0\\.nuget\\packages\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\m4ng0\\.nuget\\packages\\microsoft.aspnetcore.razor\\2.2.0\\microsoft.aspnetcore.razor.2.2.0.nupkg.sha512",

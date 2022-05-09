@@ -23,14 +23,14 @@ namespace ProjectManagementSystemAPI.Controllers
 
         // GET: api/Activities
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ActivityDto>>> GetActivities()
+        public async Task<ActionResult<IEnumerable<Activity>>> GetActivities()
         {
             return await _context.Activities.ToListAsync();
         }
 
         // GET: api/Activities/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<ActivityDto>> GetActivity(int id)
+        public async Task<ActionResult<Activity>> GetActivity(int id)
         {
             var activity = await _context.Activities.FindAsync(id);
 
@@ -45,7 +45,7 @@ namespace ProjectManagementSystemAPI.Controllers
         // PUT: api/Activities/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutActivity(int id, ActivityDto activity)
+        public async Task<IActionResult> PutActivity(int id, Activity activity)
         {
             if (id != activity.Id)
             {
@@ -76,7 +76,7 @@ namespace ProjectManagementSystemAPI.Controllers
         // POST: api/Activities
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<ActivityDto>> PostActivity(ActivityDto activity)
+        public async Task<ActionResult<Activity>> PostActivity(Activity activity)
         {
             _context.Activities.Add(activity);
             await _context.SaveChangesAsync();

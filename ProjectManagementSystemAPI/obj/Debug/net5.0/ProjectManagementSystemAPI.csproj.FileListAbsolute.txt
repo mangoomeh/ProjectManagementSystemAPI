@@ -132,3 +132,4 @@ C:\Users\m4ng0\Desktop\GitHub\ProjectManagementSystemAPI\ProjectManagementSystem
 C:\Users\m4ng0\Desktop\GitHub\ProjectManagementSystemAPI\ProjectManagementSystemAPI\obj\Debug\net5.0\ProjectManagementSystemAPI.pdb
 C:\Users\m4ng0\Desktop\GitHub\ProjectManagementSystemAPI\ProjectManagementSystemAPI\obj\Debug\net5.0\ProjectManagementSystemAPI.genruntimeconfig.cache
 C:\Users\m4ng0\Desktop\GitHub\ProjectManagementSystemAPI\ProjectManagementSystemAPI\obj\Debug\net5.0\ref\ProjectManagementSystemAPI.dll
+C:\Users\m4ng0\Desktop\GitHub\ProjectManagementSystemAPI\ProjectManagementSystemAPI\bin\Debug\net5.0\AutoMapper.dll

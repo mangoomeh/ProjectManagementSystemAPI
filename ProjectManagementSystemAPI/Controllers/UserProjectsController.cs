@@ -23,14 +23,14 @@ namespace ProjectManagementSystemAPI.Controllers
 
         // GET: api/UserProjects
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserProjectDto>>> GetUserProjects()
+        public async Task<ActionResult<IEnumerable<UserProject>>> GetUserProjects()
         {
             return await _context.UserProjects.ToListAsync();
         }
 
         // GET: api/UserProjects/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserProjectDto>> GetUserProject(int id)
+        public async Task<ActionResult<UserProject>> GetUserProject(int id)
         {
             var userProject = await _context.UserProjects.FindAsync(id);
 
@@ -45,7 +45,7 @@ namespace ProjectManagementSystemAPI.Controllers
         // PUT: api/UserProjects/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUserProject(int id, UserProjectDto userProject)
+        public async Task<IActionResult> PutUserProject(int id, UserProject userProject)
         {
             if (id != userProject.Id)
             {
@@ -76,7 +76,7 @@ namespace ProjectManagementSystemAPI.Controllers
         // POST: api/UserProjects
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<UserProjectDto>> PostUserProject(UserProjectDto userProject)
+        public async Task<ActionResult<UserProject>> PostUserProject(UserProject userProject)
         {
             _context.UserProjects.Add(userProject);
             await _context.SaveChangesAsync();
