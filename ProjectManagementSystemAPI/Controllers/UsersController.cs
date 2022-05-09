@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -17,10 +18,12 @@ namespace ProjectManagementSystemAPI.Controllers
     public class UsersController : ControllerBase
     {
         private readonly PMSContext _context;
+        private readonly IMapper _mapper;
 
-        public UsersController(PMSContext context)
+        public UsersController(PMSContext context, IMapper autoMapper)
         {
             _context = context;
+            _mapper = autoMapper;
         }
 
         // GET: api/Users
@@ -86,14 +89,10 @@ namespace ProjectManagementSystemAPI.Controllers
             }
 
             EncryptDecryptPassword.CreateHashPassword(signupDto.Password, out byte[] passwordHash, out byte[] passwordSalt);
-            var user = new User
-            {
-                Name = signupDto.Name,
-                Email = signupDto.Email,
-                CreatedTime = DateTime.Now,
-                PasswordHash = passwordHash,
-                PasswordSalt = passwordSalt
-            };
+            var user = _mapper.Map<User>(signupDto);
+            user.CreatedTime = DateTime.Now;
+            user.PasswordHash = passwordHash;
+            user.PasswordSalt = passwordSalt;
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
