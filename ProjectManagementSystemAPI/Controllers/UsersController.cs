@@ -12,47 +12,47 @@ namespace ProjectManagementSystemAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RolesController : ControllerBase
+    public class UsersController : ControllerBase
     {
         private readonly PMSContext _context;
 
-        public RolesController(PMSContext context)
+        public UsersController(PMSContext context)
         {
             _context = context;
         }
 
-        // GET: api/Roles
+        // GET: api/Users
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<RoleDto>>> GetRoles()
+        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
-            return await _context.Roles.ToListAsync();
+            return await _context.Users.ToListAsync();
         }
 
-        // GET: api/Roles/5
+        // GET: api/Users/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<RoleDto>> GetRole(int id)
+        public async Task<ActionResult<User>> GetUser(int id)
         {
-            var role = await _context.Roles.FindAsync(id);
+            var user = await _context.Users.FindAsync(id);
 
-            if (role == null)
+            if (user == null)
             {
                 return NotFound();
             }
 
-            return role;
+            return user;
         }
 
-        // PUT: api/Roles/5
+        // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutRole(int id, RoleDto role)
+        public async Task<IActionResult> PutUser(int id, User user)
         {
-            if (id != role.Id)
+            if (id != user.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(role).State = EntityState.Modified;
+            _context.Entry(user).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace ProjectManagementSystemAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!RoleExists(id))
+                if (!UserExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace ProjectManagementSystemAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Roles
+        // POST: api/Users
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<RoleDto>> PostRole(RoleDto role)
+        public async Task<ActionResult<User>> PostUser(User user)
         {
-            _context.Roles.Add(role);
+            _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetRole", new { id = role.Id }, role);
+            return CreatedAtAction("GetUser", new { id = user.Id }, user);
         }
 
-        // DELETE: api/Roles/5
+        // DELETE: api/Users/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteRole(int id)
+        public async Task<IActionResult> DeleteUser(int id)
         {
-            var role = await _context.Roles.FindAsync(id);
-            if (role == null)
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
             {
                 return NotFound();
             }
 
-            _context.Roles.Remove(role);
+            _context.Users.Remove(user);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool RoleExists(int id)
+        private bool UserExists(int id)
         {
-            return _context.Roles.Any(e => e.Id == id);
+            return _context.Users.Any(e => e.Id == id);
         }
     }
 }

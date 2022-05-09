@@ -12,47 +12,47 @@ namespace ProjectManagementSystemAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RolesController : ControllerBase
+    public class ActivitiesController : ControllerBase
     {
         private readonly PMSContext _context;
 
-        public RolesController(PMSContext context)
+        public ActivitiesController(PMSContext context)
         {
             _context = context;
         }
 
-        // GET: api/Roles
+        // GET: api/Activities
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<RoleDto>>> GetRoles()
+        public async Task<ActionResult<IEnumerable<ActivityDto>>> GetActivities()
         {
-            return await _context.Roles.ToListAsync();
+            return await _context.Activities.ToListAsync();
         }
 
-        // GET: api/Roles/5
+        // GET: api/Activities/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<RoleDto>> GetRole(int id)
+        public async Task<ActionResult<ActivityDto>> GetActivity(int id)
         {
-            var role = await _context.Roles.FindAsync(id);
+            var activity = await _context.Activities.FindAsync(id);
 
-            if (role == null)
+            if (activity == null)
             {
                 return NotFound();
             }
 
-            return role;
+            return activity;
         }
 
-        // PUT: api/Roles/5
+        // PUT: api/Activities/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutRole(int id, RoleDto role)
+        public async Task<IActionResult> PutActivity(int id, ActivityDto activity)
         {
-            if (id != role.Id)
+            if (id != activity.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(role).State = EntityState.Modified;
+            _context.Entry(activity).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace ProjectManagementSystemAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!RoleExists(id))
+                if (!ActivityExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace ProjectManagementSystemAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Roles
+        // POST: api/Activities
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<RoleDto>> PostRole(RoleDto role)
+        public async Task<ActionResult<ActivityDto>> PostActivity(ActivityDto activity)
         {
-            _context.Roles.Add(role);
+            _context.Activities.Add(activity);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetRole", new { id = role.Id }, role);
+            return CreatedAtAction("GetActivity", new { id = activity.Id }, activity);
         }
 
-        // DELETE: api/Roles/5
+        // DELETE: api/Activities/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteRole(int id)
+        public async Task<IActionResult> DeleteActivity(int id)
         {
-            var role = await _context.Roles.FindAsync(id);
-            if (role == null)
+            var activity = await _context.Activities.FindAsync(id);
+            if (activity == null)
             {
                 return NotFound();
             }
 
-            _context.Roles.Remove(role);
+            _context.Activities.Remove(activity);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool RoleExists(int id)
+        private bool ActivityExists(int id)
         {
-            return _context.Roles.Any(e => e.Id == id);
+            return _context.Activities.Any(e => e.Id == id);
         }
     }
 }

@@ -12,47 +12,47 @@ namespace ProjectManagementSystemAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RolesController : ControllerBase
+    public class ProjectsController : ControllerBase
     {
         private readonly PMSContext _context;
 
-        public RolesController(PMSContext context)
+        public ProjectsController(PMSContext context)
         {
             _context = context;
         }
 
-        // GET: api/Roles
+        // GET: api/Projects
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<RoleDto>>> GetRoles()
+        public async Task<ActionResult<IEnumerable<ProjectDto>>> GetProjects()
         {
-            return await _context.Roles.ToListAsync();
+            return await _context.Projects.ToListAsync();
         }
 
-        // GET: api/Roles/5
+        // GET: api/Projects/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<RoleDto>> GetRole(int id)
+        public async Task<ActionResult<ProjectDto>> GetProject(int id)
         {
-            var role = await _context.Roles.FindAsync(id);
+            var project = await _context.Projects.FindAsync(id);
 
-            if (role == null)
+            if (project == null)
             {
                 return NotFound();
             }
 
-            return role;
+            return project;
         }
 
-        // PUT: api/Roles/5
+        // PUT: api/Projects/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutRole(int id, RoleDto role)
+        public async Task<IActionResult> PutProject(int id, ProjectDto project)
         {
-            if (id != role.Id)
+            if (id != project.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(role).State = EntityState.Modified;
+            _context.Entry(project).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace ProjectManagementSystemAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!RoleExists(id))
+                if (!ProjectExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace ProjectManagementSystemAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Roles
+        // POST: api/Projects
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<RoleDto>> PostRole(RoleDto role)
+        public async Task<ActionResult<ProjectDto>> PostProject(ProjectDto project)
         {
-            _context.Roles.Add(role);
+            _context.Projects.Add(project);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetRole", new { id = role.Id }, role);
+            return CreatedAtAction("GetProject", new { id = project.Id }, project);
         }
 
-        // DELETE: api/Roles/5
+        // DELETE: api/Projects/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteRole(int id)
+        public async Task<IActionResult> DeleteProject(int id)
         {
-            var role = await _context.Roles.FindAsync(id);
-            if (role == null)
+            var project = await _context.Projects.FindAsync(id);
+            if (project == null)
             {
                 return NotFound();
             }
 
-            _context.Roles.Remove(role);
+            _context.Projects.Remove(project);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool RoleExists(int id)
+        private bool ProjectExists(int id)
         {
-            return _context.Roles.Any(e => e.Id == id);
+            return _context.Projects.Any(e => e.Id == id);
         }
     }
 }

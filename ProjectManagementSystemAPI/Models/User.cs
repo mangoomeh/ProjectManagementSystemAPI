@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ProjectManagementSystemAPI.Models
 {
-    public class User
+    public class UserDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -13,9 +13,9 @@ namespace ProjectManagementSystemAPI.Models
         public DateTime CreatedTime { get; set; }
 
         public int RoleId { get; set; }
-        public Role Role { get; set; }
+        public RoleDto Role { get; set; }
 
         public int UserProjectId { get; set; }
-        public List<UserProject> UserProjects { get; set; }
+        public List<UserProjectDto> UserProjects { get; set; }
     }
 }

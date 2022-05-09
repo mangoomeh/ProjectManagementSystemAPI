@@ -12,47 +12,47 @@ namespace ProjectManagementSystemAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RolesController : ControllerBase
+    public class UserProjectsController : ControllerBase
     {
         private readonly PMSContext _context;
 
-        public RolesController(PMSContext context)
+        public UserProjectsController(PMSContext context)
         {
             _context = context;
         }
 
-        // GET: api/Roles
+        // GET: api/UserProjects
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<RoleDto>>> GetRoles()
+        public async Task<ActionResult<IEnumerable<UserProjectDto>>> GetUserProjects()
         {
-            return await _context.Roles.ToListAsync();
+            return await _context.UserProjects.ToListAsync();
         }
 
-        // GET: api/Roles/5
+        // GET: api/UserProjects/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<RoleDto>> GetRole(int id)
+        public async Task<ActionResult<UserProjectDto>> GetUserProject(int id)
         {
-            var role = await _context.Roles.FindAsync(id);
+            var userProject = await _context.UserProjects.FindAsync(id);
 
-            if (role == null)
+            if (userProject == null)
             {
                 return NotFound();
             }
 
-            return role;
+            return userProject;
         }
 
-        // PUT: api/Roles/5
+        // PUT: api/UserProjects/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutRole(int id, RoleDto role)
+        public async Task<IActionResult> PutUserProject(int id, UserProjectDto userProject)
         {
-            if (id != role.Id)
+            if (id != userProject.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(role).State = EntityState.Modified;
+            _context.Entry(userProject).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace ProjectManagementSystemAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!RoleExists(id))
+                if (!UserProjectExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace ProjectManagementSystemAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Roles
+        // POST: api/UserProjects
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<RoleDto>> PostRole(RoleDto role)
+        public async Task<ActionResult<UserProjectDto>> PostUserProject(UserProjectDto userProject)
         {
-            _context.Roles.Add(role);
+            _context.UserProjects.Add(userProject);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetRole", new { id = role.Id }, role);
+            return CreatedAtAction("GetUserProject", new { id = userProject.Id }, userProject);
         }
 
-        // DELETE: api/Roles/5
+        // DELETE: api/UserProjects/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteRole(int id)
+        public async Task<IActionResult> DeleteUserProject(int id)
         {
-            var role = await _context.Roles.FindAsync(id);
-            if (role == null)
+            var userProject = await _context.UserProjects.FindAsync(id);
+            if (userProject == null)
             {
                 return NotFound();
             }
 
-            _context.Roles.Remove(role);
+            _context.UserProjects.Remove(userProject);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool RoleExists(int id)
+        private bool UserProjectExists(int id)
         {
-            return _context.Roles.Any(e => e.Id == id);
+            return _context.UserProjects.Any(e => e.Id == id);
         }
     }
 }
