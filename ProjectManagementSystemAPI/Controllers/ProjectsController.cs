@@ -122,7 +122,14 @@ namespace ProjectManagementSystemAPI.Controllers
             }
             
             project.Status = "completed";
-            return Ok();
+            _context.Entry(project).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return Ok(new
+            {
+                Status = 200,
+                Message = $"Set project {project.Name} to completed status"
+            });
         }
 
         // PUT: api/Projects/5
