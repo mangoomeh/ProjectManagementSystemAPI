@@ -15,9 +15,9 @@ namespace ProjectManagementSystemAPI.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UserProjectId = table.Column<int>(type: "int", nullable: false)
+                    EndTime = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -68,8 +68,7 @@ namespace ProjectManagementSystemAPI.Migrations
                     PasswordHash = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     PasswordSalt = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     CreatedTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    RoleId = table.Column<int>(type: "int", nullable: false),
-                    UserProjectId = table.Column<int>(type: "int", nullable: false)
+                    RoleId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -83,26 +82,24 @@ namespace ProjectManagementSystemAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserProjects",
+                name: "ProjectUser",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    ProjectId = table.Column<int>(type: "int", nullable: false)
+                    ProjectsId = table.Column<int>(type: "int", nullable: false),
+                    UsersId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserProjects", x => x.Id);
+                    table.PrimaryKey("PK_ProjectUser", x => new { x.ProjectsId, x.UsersId });
                     table.ForeignKey(
-                        name: "FK_UserProjects_Projects_ProjectId",
-                        column: x => x.ProjectId,
+                        name: "FK_ProjectUser_Projects_ProjectsId",
+                        column: x => x.ProjectsId,
                         principalTable: "Projects",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserProjects_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_ProjectUser_Users_UsersId",
+                        column: x => x.UsersId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -114,14 +111,9 @@ namespace ProjectManagementSystemAPI.Migrations
                 column: "ProjectId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserProjects_ProjectId",
-                table: "UserProjects",
-                column: "ProjectId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserProjects_UserId",
-                table: "UserProjects",
-                column: "UserId");
+                name: "IX_ProjectUser_UsersId",
+                table: "ProjectUser",
+                column: "UsersId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_RoleId",
@@ -135,7 +127,7 @@ namespace ProjectManagementSystemAPI.Migrations
                 name: "Activities");
 
             migrationBuilder.DropTable(
-                name: "UserProjects");
+                name: "ProjectUser");
 
             migrationBuilder.DropTable(
                 name: "Projects");

@@ -1,8 +1,14 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using ProjectManagementSystemAPI.Context;
 using ProjectManagementSystemAPI.Dtos;
 using ProjectManagementSystemAPI.Helpers;
@@ -15,10 +21,30 @@ namespace ProjectManagementSystemAPI.Controllers
     public class LoginController : ControllerBase
     {
         private readonly PMSContext _context;
+        private readonly IConfiguration _config;
 
-        public LoginController(PMSContext context)
+        public LoginController(PMSContext context, IConfiguration config)
         {
             _context = context;
+            _config = config;
+        }
+
+        private string CreateJwtToken(User user)
+        {
+            List<Claim> claimsList = new()
+            {
+                new Claim("UserId", user.Id.ToString()),
+                new Claim("Role", user.Role.Name),
+            };
+            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_config.GetSection("SecretKey").Value));
+            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
+            var token = new JwtSecurityToken(
+                claims: claimsList,
+                expires: DateTime.Now.AddDays(1),
+                signingCredentials: credentials);
+
+            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+            return jwt;
         }
 
         [HttpPost]
@@ -29,7 +55,7 @@ namespace ProjectManagementSystemAPI.Controllers
                 return BadRequest();
             }
 
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == loginDto.Email);
+            var user = await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Email == loginDto.Email);
             
             if (user == null)
             {
@@ -41,7 +67,12 @@ namespace ProjectManagementSystemAPI.Controllers
                 return Unauthorized();
             }
 
-            return Ok();
+            return Ok(new
+            {
+                Status = 200,
+                Message = "Login Success!",
+                Token = CreateJwtToken(user)
+            });
         }
     }
 }

@@ -9,6 +9,8 @@ namespace ProjectManagementSystemAPI.Helpers
         public AutoMapperProfiles()
         {
             CreateMap<SignupDto, User>();
+            CreateMap<User, UserDto>();
+            CreateMap<ProjectDto, Project>();
         }
     }
 }

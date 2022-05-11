@@ -30,12 +30,12 @@ namespace ProjectManagementSystemAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
-            return await _context.Users.ToListAsync();
+            return await _context.Users.Include(u=>u.Role).ToListAsync();
         }
 
         // GET: api/Users/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<UserDto>> GetUser(int id)
         {
             var user = await _context.Users.FindAsync(id);
 
@@ -44,7 +44,7 @@ namespace ProjectManagementSystemAPI.Controllers
                 return NotFound();
             }
 
-            return user;
+            return _mapper.Map<UserDto>(user);
         }
 
         // PUT: api/Users/5
@@ -88,6 +88,13 @@ namespace ProjectManagementSystemAPI.Controllers
                 return BadRequest();
             }
 
+            var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == signupDto.Email);
+
+            if (existingUser != null)
+            {
+                return BadRequest();
+            }
+
             EncryptDecryptPassword.CreateHashPassword(signupDto.Password, out byte[] passwordHash, out byte[] passwordSalt);
             var user = _mapper.Map<User>(signupDto);
             user.CreatedTime = DateTime.Now;
@@ -97,7 +104,11 @@ namespace ProjectManagementSystemAPI.Controllers
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            return Ok();
+            return Ok(new
+            {
+                Status = 200,
+                Message = $"Account of {user.Name} created!",
+            });
         }
 
         // DELETE: api/Users/5

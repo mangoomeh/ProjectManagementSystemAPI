@@ -10,7 +10,7 @@ using ProjectManagementSystemAPI.Context;
 namespace ProjectManagementSystemAPI.Migrations
 {
     [DbContext(typeof(PMSContext))]
-    [Migration("20220509042522_v1")]
+    [Migration("20220510112701_v1")]
     partial class v1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -60,8 +60,8 @@ namespace ProjectManagementSystemAPI.Migrations
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UserProjectId")
-                        .HasColumnType("int");
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -108,9 +108,6 @@ namespace ProjectManagementSystemAPI.Migrations
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserProjectId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("RoleId");
@@ -118,26 +115,19 @@ namespace ProjectManagementSystemAPI.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("ProjectManagementSystemAPI.Models.UserProject", b =>
+            modelBuilder.Entity("ProjectUser", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ProjectId")
+                    b.Property<int>("ProjectsId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
+                    b.Property<int>("UsersId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("ProjectsId", "UsersId");
 
-                    b.HasIndex("ProjectId");
+                    b.HasIndex("UsersId");
 
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserProjects");
+                    b.ToTable("ProjectUser");
                 });
 
             modelBuilder.Entity("ProjectManagementSystemAPI.Models.Activity", b =>
@@ -162,40 +152,29 @@ namespace ProjectManagementSystemAPI.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("ProjectManagementSystemAPI.Models.UserProject", b =>
+            modelBuilder.Entity("ProjectUser", b =>
                 {
-                    b.HasOne("ProjectManagementSystemAPI.Models.Project", "Project")
-                        .WithMany("UserProject")
-                        .HasForeignKey("ProjectId")
+                    b.HasOne("ProjectManagementSystemAPI.Models.Project", null)
+                        .WithMany()
+                        .HasForeignKey("ProjectsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ProjectManagementSystemAPI.Models.User", "User")
-                        .WithMany("UserProjects")
-                        .HasForeignKey("UserId")
+                    b.HasOne("ProjectManagementSystemAPI.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Project");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ProjectManagementSystemAPI.Models.Project", b =>
                 {
                     b.Navigation("Activities");
-
-                    b.Navigation("UserProject");
                 });
 
             modelBuilder.Entity("ProjectManagementSystemAPI.Models.Role", b =>
                 {
                     b.Navigation("Users");
-                });
-
-            modelBuilder.Entity("ProjectManagementSystemAPI.Models.User", b =>
-                {
-                    b.Navigation("UserProjects");
                 });
 #pragma warning restore 612, 618
         }
