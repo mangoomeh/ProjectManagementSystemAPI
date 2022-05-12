@@ -33,6 +33,13 @@ namespace ProjectManagementSystemAPI.Controllers
             return await _context.Users.Include(u=>u.Role).ToListAsync();
         }
 
+        // GET: api/Users/not-in-project/{projectId}
+        [HttpGet("not-in-project/{projectId}")]
+        public async Task<ActionResult<IEnumerable<User>>> GetUsersNotInCurrentProject(int projectId)
+        {
+            return await _context.Users.Include(u=>u.Role).Include(u=>u.Projects).Where(u => !u.Projects.Any(p=>p.Id == projectId)).ToListAsync();
+        }
+
         // GET: api/Users/5
         [HttpGet("{id}")]
         public async Task<ActionResult<UserDto>> GetUser(int id)
