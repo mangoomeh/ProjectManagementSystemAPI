@@ -81,7 +81,11 @@ namespace ProjectManagementSystemAPI.Controllers
             _context.Activities.Add(activity);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetActivity", new { id = activity.Id }, activity);
+            return Ok(new
+            {
+                Status = 200,
+                Message = $"Activity {activity.Name} is added to project with id of {activity.Id}"
+            });
         }
 
         // DELETE: api/Activities/5

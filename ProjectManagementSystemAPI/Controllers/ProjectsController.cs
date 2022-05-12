@@ -51,7 +51,7 @@ namespace ProjectManagementSystemAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Project>> GetProject(int id)
         {
-            var project = await _context.Projects.Include(p => p.Users).ThenInclude(u => u.Role).Include(p => p.Activities).FirstOrDefaultAsync(p => p.Id == id);
+            var project = await _context.Projects.Include(p => p.Users).ThenInclude(u => u.Role).Include(p => p.Activities).ThenInclude(a=>a.User).FirstOrDefaultAsync(p => p.Id == id);
 
             if (project == null)
             {
